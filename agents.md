@@ -77,26 +77,23 @@ Before ending a session:
 
 ```
 .claude/skills/
-├── design-os/              # Core design skills
-│   ├── analyze-app.md
-│   ├── design-screen.md
-│   ├── design-shell.md
-│   ├── design-tokens.md
-│   ├── document-component.md
-│   ├── export-product.md
-│   ├── extract-patterns.md
-│   ├── product-roadmap.md
-│   ├── product-vision.md
-│   ├── reimagine-component.md
-│   ├── sample-data.md
-│   ├── shape-section.md
-│   └── screenshot-design.md
-│
-└── memory/                 # Memory system skills
-    ├── remember.md
-    ├── recall.md
-    ├── session-start.md
-    └── session-end.md
+├── analyze-app/SKILL.md        # Scan Rails codebase
+├── design-screen/SKILL.md      # Create ViewComponent screens
+├── design-shell/SKILL.md       # Design application shell
+├── design-tokens/SKILL.md      # Define/extract tokens
+├── document-component/SKILL.md # Document existing components
+├── export-product/SKILL.md     # Generate handoff package
+├── extract-patterns/SKILL.md   # Identify reusable patterns
+├── product-roadmap/SKILL.md    # Plan sections
+├── product-vision/SKILL.md     # Define product overview
+├── recall/SKILL.md             # Query knowledge base
+├── reimagine-component/SKILL.md # Propose improvements
+├── remember/SKILL.md           # Save to memory
+├── sample-data/SKILL.md        # Create test data
+├── screenshot-design/SKILL.md  # Capture screenshots
+├── session-end/SKILL.md        # End session with summary
+├── session-start/SKILL.md      # Start session, load context
+└── shape-section/SKILL.md      # Define section spec
 ```
 
 ### Project-Specific (Created Per Project)
