@@ -27,11 +27,19 @@ Skills adapt their behavior based on mode.
 
 ## Memory System
 
+Design OS uses [Pensieve](https://www.npmjs.com/package/@esparkman/pensieve), an MCP server for persistent memory.
+
+### Setup
+
+```bash
+claude mcp add pensieve npx @esparkman/pensieve
+```
+
 ### Automatic Session Management
 
 At the start of every conversation:
-1. Run `/session-start` to load context from SQLite memory
-2. Review last session's work-in-progress and next steps
+1. Pensieve auto-loads context when the MCP server starts
+2. Run `/session-start` to display loaded context and start session tracking
 3. Continue with full context of prior decisions
 
 Before ending a session:
@@ -39,29 +47,25 @@ Before ending a session:
 2. Summarize accomplishments and remaining work
 3. Record any new decisions or discoveries
 
-### Memory Tables
+### Memory Types
 
-| Table | Purpose |
-|-------|---------|
-| `discoveries` | Components, patterns, entities found in codebase |
-| `decisions` | Architectural and design choices with rationale |
-| `preferences` | User preferences for coding style, testing, etc. |
-| `sessions` | Session summaries for continuity |
-| `entities` | Domain model understanding |
-| `open_questions` | Blockers and unresolved questions |
+| Type | Purpose |
+|------|---------|
+| `discovery` | Components, patterns, entities found in codebase |
+| `decision` | Architectural and design choices with rationale |
+| `preference` | User preferences for coding style, testing, etc. |
+| `entity` | Domain model understanding |
 
-### Querying Memory
+### Pensieve MCP Tools
 
-```bash
-# Query decisions
-sqlite3 design-context/memory.sqlite "SELECT * FROM decisions WHERE topic LIKE '%auth%'"
-
-# Query preferences
-sqlite3 design-context/memory.sqlite "SELECT * FROM preferences WHERE category = 'testing'"
-
-# Get last session
-sqlite3 design-context/memory.sqlite "SELECT * FROM sessions ORDER BY started_at DESC LIMIT 1"
-```
+| Tool | Purpose |
+|------|---------|
+| `pensieve_remember` | Save decisions, preferences, discoveries, entities |
+| `pensieve_recall` | Query stored knowledge |
+| `pensieve_session_start` | Start session tracking |
+| `pensieve_session_end` | End session with summary |
+| `pensieve_get_context` | Get full context dump |
+| `pensieve_resolve_question` | Resolve open questions |
 
 ---
 
@@ -97,7 +101,6 @@ sqlite3 design-context/memory.sqlite "SELECT * FROM sessions ORDER BY started_at
 
 ```
 design-context/             # Understanding of THIS codebase
-├── memory.sqlite           # Persistent knowledge base
 ├── manifest.json           # Analysis metadata
 ├── components/             # Discovered components
 ├── patterns/               # Identified patterns

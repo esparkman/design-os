@@ -1,6 +1,6 @@
 # /session-end
 
-Persist learnings and summarize the session before context is cleared. This should be run before ending a conversation or when the user indicates they're done.
+Persist learnings and summarize the session before context is cleared.
 
 ## Purpose
 
@@ -30,58 +30,45 @@ git diff --name-only HEAD~1 2>/dev/null || echo "Unable to detect changed files"
 
 Or track files mentioned during the conversation.
 
-## Step 3: Update Session Record
+## Step 3: Save Any Pending Memories
 
-Find the current session and update it:
+Before ending the session, use `pensieve_remember` to save any decisions, discoveries, or preferences that were made but not yet recorded.
 
-```bash
-sqlite3 design-context/memory.sqlite "
-  UPDATE sessions
-  SET
-    ended_at = datetime('now'),
-    summary = '[session_summary]',
-    work_in_progress = '[wip_description]',
-    next_steps = '[next_steps]',
-    key_files = '[json_array_of_files]',
-    tags = '[relevant_tags]'
-  WHERE id = (SELECT MAX(id) FROM sessions)
-"
+For each unrecorded decision:
+```json
+{
+  "type": "decision",
+  "topic": "[topic]",
+  "content": "[decision]",
+  "rationale": "[rationale]"
+}
 ```
 
-## Step 4: Persist Any New Decisions
-
-If any decisions were made during the session that weren't explicitly saved:
-
-```bash
-sqlite3 design-context/memory.sqlite "
-  INSERT INTO decisions (topic, decision, rationale, source)
-  VALUES ('[topic]', '[decision]', '[rationale]', 'inferred')
-"
+For each unrecorded discovery:
+```json
+{
+  "type": "discovery",
+  "category": "[category]",
+  "name": "[name]",
+  "location": "[location]",
+  "description": "[description]"
+}
 ```
 
-## Step 5: Record Any New Discoveries
+## Step 4: End Session with Summary
 
-If any patterns or components were discovered:
+Use the `pensieve_session_end` MCP tool to finalize the session:
 
-```bash
-sqlite3 design-context/memory.sqlite "
-  INSERT INTO discoveries (category, name, location, description, metadata)
-  VALUES ('[category]', '[name]', '[location]', '[description]', '[metadata]')
-"
+```json
+{
+  "summary": "[what was accomplished]",
+  "work_in_progress": "[what's still ongoing]",
+  "next_steps": "[planned actions for next session]",
+  "key_files": ["file1.rb", "file2.rb"]
+}
 ```
 
-## Step 6: Note Open Questions
-
-If there are unresolved questions:
-
-```bash
-sqlite3 design-context/memory.sqlite "
-  INSERT INTO open_questions (question, context, status)
-  VALUES ('[question]', '[context]', 'open')
-"
-```
-
-## Step 7: Confirm Session Saved
+## Step 5: Confirm Session Saved
 
 Present a summary to the user:
 
@@ -111,7 +98,7 @@ Present a summary to the user:
 ---
 
 Your session has been saved. When you start a new conversation,
-run `/session-start` to restore this context.
+Pensieve will automatically load this context.
 ```
 
 ## Automatic Triggers
@@ -125,7 +112,21 @@ Consider running `/session-end` when:
 
 **User:** "Okay, I think we're done for now. We finished the invoice list component."
 
-**Response:**
+**Action:** Call `pensieve_session_end` with:
+```json
+{
+  "summary": "Completed invoice list component with ViewComponent, including InvoiceListComponent with filtering, InvoiceRowComponent with status badges, and Stimulus controller for search",
+  "work_in_progress": "Invoice detail view (partially designed)",
+  "next_steps": "1. Complete invoice detail view\n2. Add PDF export functionality\n3. Connect to real data",
+  "key_files": [
+    "app/components/invoices/invoice_list_component.rb",
+    "app/components/invoices/invoice_row_component.rb",
+    "app/javascript/controllers/invoices_list_controller.js"
+  ]
+}
+```
+
+**Output:**
 ```
 ## Session Saved
 

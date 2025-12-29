@@ -2,6 +2,22 @@
 
 Refer to @agents.md
 
+## Prerequisites
+
+Design OS requires the Pensieve MCP server for persistent memory across conversations.
+
+```bash
+claude mcp add pensieve npx @esparkman/pensieve
+```
+
+Pensieve provides:
+- `pensieve_remember` - Save decisions, preferences, discoveries, entities
+- `pensieve_recall` - Query stored knowledge
+- `pensieve_session_start` - Start session tracking
+- `pensieve_session_end` - End session with summary
+- `pensieve_get_context` - Get full context dump
+- `pensieve_resolve_question` - Resolve open questions
+
 ## Strict Rules
 
 **NEVER include these in commit messages:**

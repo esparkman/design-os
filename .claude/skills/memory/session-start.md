@@ -1,93 +1,42 @@
 # /session-start
 
-Load context from the persistent memory system at the start of a conversation. This skill should run automatically at the beginning of every session.
+Display and confirm the context loaded from Pensieve at the start of a conversation.
 
 ## Purpose
 
-Restore context from previous sessions so you can:
-- Continue work in progress
-- Remember prior decisions
-- Apply learned preferences
-- Avoid re-asking resolved questions
+Pensieve automatically loads context when the MCP server starts. This skill:
+- Displays what was loaded for transparency
+- Starts session tracking for the current conversation
+- Provides continuity from previous sessions
 
-## Step 1: Check Memory Database
+## Step 1: Start Session Tracking
 
-First, verify the memory database exists:
+Use the `pensieve_session_start` MCP tool to begin tracking this session:
 
-```bash
-if [ -f "design-context/memory.sqlite" ]; then
-  echo "Memory database found"
-else
-  echo "No memory database found - this appears to be a fresh installation"
-fi
+```json
+{}
 ```
 
-If no database exists, inform the user:
+This creates a new session record that will be updated when `/session-end` is called.
 
-"This appears to be a fresh Design OS installation. No prior context to load.
+## Step 2: Get Full Context
 
-Next steps:
-1. Run `/analyze-app` to understand your codebase
-2. Run `/product-vision` to start planning"
+Use the `pensieve_get_context` MCP tool to retrieve all loaded context:
 
-And stop here.
-
-## Step 2: Load Last Session
-
-```bash
-sqlite3 -header design-context/memory.sqlite "
-  SELECT started_at, summary, work_in_progress, next_steps, tags
-  FROM sessions
-  ORDER BY started_at DESC
-  LIMIT 1
-"
+```json
+{}
 ```
 
-## Step 3: Load Key Decisions
+This returns:
+- Last session summary and next steps
+- Key decisions
+- User preferences
+- Open questions
+- Recent discoveries
 
-```bash
-sqlite3 -header design-context/memory.sqlite "
-  SELECT topic, decision
-  FROM decisions
-  ORDER BY decided_at DESC
-  LIMIT 10
-"
-```
+## Step 3: Present Context
 
-## Step 4: Load Preferences
-
-```bash
-sqlite3 -header design-context/memory.sqlite "
-  SELECT category, key, value
-  FROM preferences
-  ORDER BY category, key
-"
-```
-
-## Step 5: Load Open Questions
-
-```bash
-sqlite3 -header design-context/memory.sqlite "
-  SELECT question, context
-  FROM open_questions
-  WHERE status = 'open'
-  ORDER BY created_at DESC
-  LIMIT 5
-"
-```
-
-## Step 6: Create New Session Record
-
-```bash
-sqlite3 design-context/memory.sqlite "
-  INSERT INTO sessions (started_at, tags)
-  VALUES (datetime('now'), '')
-"
-```
-
-## Step 7: Present Context
-
-Format and present the loaded context:
+Format and present the loaded context to the user:
 
 ```
 ## Session Started
@@ -120,7 +69,9 @@ Format and present the loaded context:
 Ready to continue. What would you like to work on?
 ```
 
-If this is the first session after a fresh install:
+## Fresh Installation
+
+If Pensieve returns no prior context, inform the user:
 
 ```
 ## Session Started (Fresh Installation)
@@ -133,3 +84,9 @@ To get started:
 
 What would you like to do?
 ```
+
+## Notes
+
+- Pensieve auto-loads context when the MCP server starts, so this skill primarily displays what's already loaded
+- Session tracking begins with this skill and ends with `/session-end`
+- Context persists in `~/.pensieve/memory.sqlite` (user-level) or project-level if configured

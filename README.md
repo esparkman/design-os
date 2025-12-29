@@ -24,7 +24,7 @@ curl -sSL https://raw.githubusercontent.com/evansparkman/design-os/main/install.
 
 1. Copy `.claude/skills/` to your project
 2. Create `design-context/` folder
-3. Initialize SQLite: `sqlite3 design-context/memory.sqlite < templates/design-context/schema.sql`
+3. Install Pensieve MCP: `claude mcp add pensieve npx @esparkman/pensieve`
 4. Copy `agents.md` to your project root
 5. Add Design OS reference to your `CLAUDE.md`
 
@@ -88,7 +88,6 @@ your-rails-app/
 │       └── memory/             # Memory system skills
 │
 ├── design-context/             # Knowledge about THIS project
-│   ├── memory.sqlite           # Persistent memory database
 │   ├── manifest.json           # Analysis metadata
 │   ├── components/             # Discovered components
 │   ├── patterns/               # Identified patterns
@@ -107,11 +106,18 @@ your-rails-app/
 
 ## Memory System
 
-Design OS uses SQLite to persist knowledge across conversation boundaries. This means:
+Design OS uses [Pensieve](https://www.npmjs.com/package/@esparkman/pensieve), an MCP server for persistent memory across conversation boundaries. This means:
 
 - **No more re-explaining** — Decisions and preferences are remembered
 - **Continuous learning** — Discoveries compound over time
 - **Session continuity** — Pick up exactly where you left off
+- **Auto-loading** — Context loads automatically when you start a conversation
+
+### Setup
+
+```bash
+claude mcp add pensieve npx @esparkman/pensieve
+```
 
 ### Usage
 
@@ -133,7 +139,7 @@ Design OS automatically detects which mode to use:
 
 - Claude Code CLI
 - Ruby on Rails project (recommended)
-- SQLite3 (for memory system)
+- Pensieve MCP server (`@esparkman/pensieve`) for persistent memory
 - ViewComponent gem (for screen designs)
 
 ## License

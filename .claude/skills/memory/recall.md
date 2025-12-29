@@ -1,22 +1,23 @@
 # /recall
 
-Query the knowledge base for specific information.
+Query the Pensieve knowledge base for specific information.
 
 ## Usage
 
 ```
-/recall authentication         → Returns all auth-related decisions
+/recall authentication         → Returns all auth-related memories
 /recall entities               → Returns domain model understanding
 /recall session:last           → Returns last session summary
 /recall preferences:testing    → Returns testing preferences
 /recall components             → Returns discovered components
 /recall patterns               → Returns identified patterns
+/recall questions              → Returns open questions
 ```
 
 ## Step 1: Parse Query
 
 Identify what the user wants to recall:
-- Topic keyword → Search decisions and discoveries
+- Topic keyword → Search all memories for that topic
 - `entities` → List all entities
 - `session:last` → Get last session
 - `preferences:[category]` → Get preferences in category
@@ -24,96 +25,69 @@ Identify what the user wants to recall:
 - `patterns` → List identified patterns
 - `questions` → List open questions
 
-## Step 2: Construct Query
+## Step 2: Use Pensieve MCP Tool
+
+Use the `pensieve_recall` MCP tool with the appropriate query.
 
 ### Topic Search (Default)
 
-```bash
-sqlite3 -header -column design-context/memory.sqlite "
-  SELECT 'decision' as type, topic, decision as content, decided_at as timestamp
-  FROM decisions
-  WHERE topic LIKE '%[query]%' OR decision LIKE '%[query]%'
-  UNION ALL
-  SELECT 'discovery' as type, name as topic, description as content, discovered_at as timestamp
-  FROM discoveries
-  WHERE name LIKE '%[query]%' OR description LIKE '%[query]%'
-  ORDER BY timestamp DESC
-  LIMIT 20
-"
+```json
+{
+  "query": "[topic_keyword]"
+}
 ```
 
 ### Entities
 
-```bash
-sqlite3 -header -column design-context/memory.sqlite "
-  SELECT name, description, relationships, location
-  FROM entities
-  ORDER BY name
-"
+```json
+{
+  "query": "entities"
+}
 ```
 
 ### Last Session
 
-```bash
-sqlite3 -header -column design-context/memory.sqlite "
-  SELECT started_at, ended_at, summary, work_in_progress, next_steps
-  FROM sessions
-  ORDER BY started_at DESC
-  LIMIT 1
-"
+```json
+{
+  "query": "session:last"
+}
 ```
 
 ### Preferences by Category
 
-```bash
-sqlite3 -header -column design-context/memory.sqlite "
-  SELECT category, key, value, notes
-  FROM preferences
-  WHERE category = '[category]'
-  ORDER BY key
-"
+```json
+{
+  "query": "preferences:[category]"
+}
 ```
 
 ### Components
 
-```bash
-sqlite3 -header -column design-context/memory.sqlite "
-  SELECT name, location, description
-  FROM discoveries
-  WHERE category = 'component'
-  ORDER BY name
-"
+```json
+{
+  "query": "components"
+}
 ```
 
 ### Patterns
 
-```bash
-sqlite3 -header -column design-context/memory.sqlite "
-  SELECT name, description, metadata
-  FROM discoveries
-  WHERE category = 'pattern'
-  ORDER BY name
-"
+```json
+{
+  "query": "patterns"
+}
 ```
 
 ### Open Questions
 
-```bash
-sqlite3 -header -column design-context/memory.sqlite "
-  SELECT question, context, status, created_at
-  FROM open_questions
-  WHERE status = 'open'
-  ORDER BY created_at DESC
-"
+```json
+{
+  "query": "questions"
+}
 ```
 
-## Step 3: Execute and Format
+## Step 3: Format Results
 
-Run the query and format the results in a readable way.
-
-## Step 4: Present Results
-
-Display the results to the user in a clear format:
+Present the results to the user in a clear format:
 
 ```
 ## Recall: [query]
@@ -128,7 +102,54 @@ Found [N] results:
 
 ### Preferences
 - [category]/[key]: [value]
+
+### Entities
+- [Name]: [Description] → [Relationships]
 ```
 
 If no results found:
 "No memories found for '[query]'. Try a different search term or run /analyze-app to discover more about your codebase."
+
+## Examples
+
+**Input:** `/recall authentication`
+
+**Action:** Call `pensieve_recall` with:
+```json
+{
+  "query": "authentication"
+}
+```
+
+**Output:**
+```
+## Recall: authentication
+
+Found 3 results:
+
+### Decisions
+- Authentication: We use Devise with magic links (recorded 2024-01-15)
+- Session Management: Use Redis for session storage (recorded 2024-01-14)
+
+### Discoveries
+- DeviseConfig: Custom Devise configuration at config/initializers/devise.rb
+```
+
+**Input:** `/recall preferences:testing`
+
+**Action:** Call `pensieve_recall` with:
+```json
+{
+  "query": "preferences:testing"
+}
+```
+
+**Output:**
+```
+## Recall: preferences:testing
+
+### Preferences
+- testing/approach: system tests for UI flows
+- testing/coverage: 80% minimum
+- testing/framework: RSpec with Capybara
+```

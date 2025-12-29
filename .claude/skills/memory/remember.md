@@ -1,6 +1,6 @@
 # /remember
 
-Save discoveries, decisions, or preferences to the persistent memory database.
+Save discoveries, decisions, or preferences to Pensieve memory.
 
 ## Usage
 
@@ -14,50 +14,68 @@ Save discoveries, decisions, or preferences to the persistent memory database.
 ## Step 1: Parse Input
 
 Identify the type from the user's input:
-- `decision:` → Save to decisions table
-- `preference:` → Save to preferences table
-- `entity:` → Save to entities table
-- `discovery:` → Save to discoveries table
+- `decision:` → Save as decision
+- `preference:` → Save as preference
+- `entity:` → Save as entity
+- `discovery:` → Save as discovery
 
 Extract the content after the type indicator.
 
-## Step 2: Construct SQL
+## Step 2: Use Pensieve MCP Tool
 
-Based on the type, construct the appropriate INSERT statement.
+Use the `pensieve_remember` MCP tool with the appropriate parameters.
 
 ### For Decisions
 
-```bash
-sqlite3 design-context/memory.sqlite "INSERT INTO decisions (topic, decision, rationale, source) VALUES ('[extracted_topic]', '[decision_text]', '[rationale_if_provided]', 'user')"
+```json
+{
+  "type": "decision",
+  "topic": "[extracted_topic]",
+  "content": "[decision_text]",
+  "rationale": "[rationale_if_provided]"
+}
 ```
 
 ### For Preferences
 
-```bash
-sqlite3 design-context/memory.sqlite "INSERT OR REPLACE INTO preferences (category, key, value, notes) VALUES ('[category]', '[key]', '[value]', '[notes]')"
+```json
+{
+  "type": "preference",
+  "category": "[category]",
+  "key": "[key]",
+  "value": "[value]"
+}
 ```
 
 ### For Entities
 
-```bash
-sqlite3 design-context/memory.sqlite "INSERT OR REPLACE INTO entities (name, description, relationships, attributes, location) VALUES ('[name]', '[description]', '[relationships_json]', '[attributes_json]', '[location]')"
+```json
+{
+  "type": "entity",
+  "name": "[entity_name]",
+  "description": "[description]",
+  "relationships": "[relationships]",
+  "location": "[file_location_if_known]"
+}
 ```
 
 ### For Discoveries
 
-```bash
-sqlite3 design-context/memory.sqlite "INSERT INTO discoveries (category, name, location, description, metadata) VALUES ('[category]', '[name]', '[location]', '[description]', '[metadata_json]')"
+```json
+{
+  "type": "discovery",
+  "category": "[component|pattern|token|other]",
+  "name": "[name]",
+  "location": "[file_path]",
+  "description": "[description]"
+}
 ```
 
-## Step 3: Execute
-
-Run the constructed SQL command using Bash.
-
-## Step 4: Confirm
+## Step 3: Confirm
 
 Report what was saved to the user:
 
-"✓ Saved [type]: [summary]"
+"Saved [type]: [summary]"
 
 If the save failed, report the error and suggest a fix.
 
@@ -65,9 +83,19 @@ If the save failed, report the error and suggest a fix.
 
 **Input:** `/remember decision: We use ViewComponent for all UI components because it provides better testability`
 
+**Action:** Call `pensieve_remember` with:
+```json
+{
+  "type": "decision",
+  "topic": "UI Components",
+  "content": "We use ViewComponent for all UI components",
+  "rationale": "Provides better testability"
+}
+```
+
 **Output:**
 ```
-✓ Saved decision:
+Saved decision:
   Topic: UI Components
   Decision: We use ViewComponent for all UI components
   Rationale: Provides better testability
@@ -75,9 +103,19 @@ If the save failed, report the error and suggest a fix.
 
 **Input:** `/remember preference: testing/approach = system tests for UI flows`
 
+**Action:** Call `pensieve_remember` with:
+```json
+{
+  "type": "preference",
+  "category": "testing",
+  "key": "approach",
+  "value": "system tests for UI flows"
+}
+```
+
 **Output:**
 ```
-✓ Saved preference:
+Saved preference:
   Category: testing
   Key: approach
   Value: system tests for UI flows
