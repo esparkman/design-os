@@ -1,3 +1,8 @@
+---
+name: session-end
+description: Persist learnings and summarize the session before ending. Use this before closing a conversation to save decisions, discoveries, and next steps for continuity.
+---
+
 # /session-end
 
 Persist learnings and summarize the session before context is cleared.

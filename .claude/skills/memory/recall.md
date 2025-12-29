@@ -1,3 +1,8 @@
+---
+name: recall
+description: Query the Pensieve knowledge base for stored information. Use to retrieve decisions, preferences, entities, components, patterns, or session history.
+---
+
 # /recall
 
 Query the Pensieve knowledge base for specific information.
