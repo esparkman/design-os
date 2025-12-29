@@ -1,5 +1,4 @@
 ---
-name: reimagine-component
 description: Propose improvements for existing components with migration path. Use to redesign components while maintaining backwards compatibility.
 ---
 

@@ -1,5 +1,4 @@
 ---
-name: analyze-app
 description: Scan and analyze an existing Rails codebase to understand components, patterns, and design tokens. Use this to populate design-context/ and establish baseline understanding of a brownfield project.
 ---
 

@@ -1,5 +1,4 @@
 ---
-name: export-product
 description: Generate a handoff package with integration instructions. Use to create documentation and export designed components for developer implementation.
 ---
 

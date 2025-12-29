@@ -1,5 +1,4 @@
 ---
-name: extract-patterns
 description: Identify reusable patterns from existing codebase. Use to discover common UI patterns, layouts, and component compositions that can be standardized.
 ---
 

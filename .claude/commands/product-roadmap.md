@@ -1,5 +1,4 @@
 ---
-name: product-roadmap
 description: Plan and organize product sections and features. Use to create or update the product roadmap with prioritized sections.
 ---
 

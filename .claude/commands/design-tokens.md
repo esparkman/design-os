@@ -1,5 +1,4 @@
 ---
-name: design-tokens
 description: Define or extract color palettes and typography tokens. Use to establish or document the design system's foundational tokens.
 ---
 

@@ -1,5 +1,4 @@
 ---
-name: sample-data
 description: Create sample data and Ruby types for component development. Use to generate realistic test data and type definitions for ViewComponents.
 ---
 

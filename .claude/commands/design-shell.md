@@ -1,5 +1,4 @@
 ---
-name: design-shell
 description: Design or document the application shell including layout, navigation, and header/footer. Use to establish the outer container structure.
 ---
 

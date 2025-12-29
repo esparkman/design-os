@@ -1,5 +1,4 @@
 ---
-name: session-start
 description: Load and display context from Pensieve at the start of a conversation. Use this at the beginning of every session to ensure continuity from previous work.
 ---
 

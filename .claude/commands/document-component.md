@@ -1,5 +1,4 @@
 ---
-name: document-component
 description: Create detailed documentation for existing components. Use to catalog discovered components with their props, variants, and usage examples.
 ---
 

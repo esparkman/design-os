@@ -1,5 +1,4 @@
 ---
-name: product-vision
 description: Define or refine the product overview and goals. Use when planning a new product, clarifying vision, or aligning on product direction.
 ---
 

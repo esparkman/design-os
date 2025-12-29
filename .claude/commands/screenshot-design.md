@@ -1,5 +1,4 @@
 ---
-name: screenshot-design
 description: Capture screenshots of designed components for documentation. Use to create visual records of ViewComponent designs in Lookbook.
 ---
 

@@ -1,5 +1,4 @@
 ---
-name: design-screen
 description: Create ViewComponent screen designs that match existing patterns. Use to build new screens with props-based components following the established design system.
 ---
 

@@ -1,5 +1,4 @@
 ---
-name: remember
 description: Save discoveries, decisions, or preferences to Pensieve memory. Use to persist important learnings like architectural decisions, coding preferences, or discovered components.
 ---
 
