@@ -29,6 +29,16 @@ echo ""
 # Create .claude directories
 mkdir -p .claude/commands .claude/skills
 
+# Design OS file list (for clean reinstall)
+DESIGN_OS_COMMANDS="analyze-app design-screen design-shell design-tokens document-component export-product extract-patterns product-roadmap product-vision recall reimagine-component remember sample-data screenshot-design session-end session-start shape-section"
+
+# Clean up previous Design OS installation (only Design OS files, not user files)
+echo "-> Cleaning previous Design OS files..."
+for cmd in $DESIGN_OS_COMMANDS; do
+  rm -f ".claude/commands/${cmd}.md"
+  rm -rf ".claude/skills/${cmd}"
+done
+
 # Clone or download Design OS
 if command -v git &> /dev/null; then
   echo "-> Cloning Design OS..."
