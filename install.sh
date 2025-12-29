@@ -38,6 +38,9 @@ for cmd in $DESIGN_OS_COMMANDS; do
   rm -f ".claude/commands/${cmd}.md"
   rm -rf ".claude/skills/${cmd}"
 done
+# Also clean up old nested structure from earlier versions
+rm -rf ".claude/skills/memory"
+rm -rf ".claude/skills/design-os"
 
 # Clone or download Design OS
 if command -v git &> /dev/null; then
