@@ -2,6 +2,15 @@
 
 A bi-directional design intelligence system for Claude Code that can be installed into any brownfield Rails application.
 
+## Attribution
+
+Design OS is based on the original [Design OS](https://buildermethods.com) concepts and methodology by **Brian Casel** from [BuilderMethods](https://buildermethods.com). The name is intentionally the same to honor the source material.
+
+This fork extends the original vision with a focus on:
+- **Brownfield Rails applications** — analyzing and matching existing patterns
+- **ViewComponent workflows** — props-based, testable UI components
+- **Pensieve integration** — persistent memory across Claude Code sessions
+
 ## What Design OS Does
 
 1. **LEARN** — Analyze existing app's designs (components, patterns, tokens)

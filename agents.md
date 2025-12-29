@@ -2,6 +2,8 @@
 
 Design OS is a **bi-directional design intelligence system** that can be installed into any brownfield Rails application. It helps you understand existing patterns, design new components that match, and maintain knowledge across conversation boundaries.
 
+> **Attribution:** Design OS is based on the original [Design OS](https://buildermethods.com) concepts by **Brian Casel** from BuilderMethods. This fork focuses on brownfield Rails applications and ViewComponent workflows.
+
 ---
 
 ## The Five Pillars
