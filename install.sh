@@ -27,7 +27,7 @@ echo "Installing Design OS..."
 echo ""
 
 # Create .claude directories
-mkdir -p .claude/commands .claude/skills
+mkdir -p .claude/commands
 
 # Design OS file list (for clean reinstall)
 DESIGN_OS_COMMANDS="analyze-app design-screen design-shell design-tokens document-component export-product extract-patterns product-roadmap product-vision recall reimagine-component remember sample-data screenshot-design session-end session-start shape-section"
@@ -36,6 +36,7 @@ DESIGN_OS_COMMANDS="analyze-app design-screen design-shell design-tokens documen
 echo "-> Cleaning previous Design OS files..."
 for cmd in $DESIGN_OS_COMMANDS; do
   rm -f ".claude/commands/${cmd}.md"
+  # Clean up skills too (from earlier versions that installed both)
   rm -rf ".claude/skills/${cmd}"
 done
 # Also clean up old nested structure from earlier versions
@@ -50,14 +51,12 @@ if command -v git &> /dev/null; then
     git clone --depth 1 "$REPO_URL" /tmp/design-os-install
   }
   cp -r /tmp/design-os-install/.claude/commands/* .claude/commands/
-  cp -r /tmp/design-os-install/.claude/skills/* .claude/skills/
   AGENTS_PATH="/tmp/design-os-install/agents.md"
 else
   echo "-> Downloading Design OS..."
   curl -sSL "$REPO_URL/archive/$DESIGN_OS_VERSION.zip" -o /tmp/design-os.zip
   unzip -q /tmp/design-os.zip -d /tmp/
   cp -r /tmp/design-os-*/.claude/commands/* .claude/commands/
-  cp -r /tmp/design-os-*/.claude/skills/* .claude/skills/
   AGENTS_PATH="/tmp/design-os-*/agents.md"
 fi
 
@@ -127,7 +126,6 @@ echo "========================================"
 echo ""
 echo "Files created:"
 echo "  .claude/commands/*.md      - 17 slash commands (/analyze-app, /design-screen, etc.)"
-echo "  .claude/skills/*/SKILL.md  - 17 skills (Claude-invoked)"
 echo "  design-context/            - Project knowledge base"
 echo "  product/                   - Design intent"
 echo ""

@@ -97,13 +97,6 @@ Before ending a session:
 └── shape-section.md      # /shape-section - Define section spec
 ```
 
-**Skills** (Claude-invoked automatically based on context):
-```
-.claude/skills/
-├── analyze-app/SKILL.md
-├── design-screen/SKILL.md
-└── ... (mirrors commands)
-```
 
 ### Project-Specific (Created Per Project)
 
