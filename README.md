@@ -26,7 +26,7 @@ This fork extends the original vision with a focus on:
 From your Rails project root:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/evansparkman/design-os/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/esparkman/design-os/main/install.sh | bash
 ```
 
 ### Manual Install

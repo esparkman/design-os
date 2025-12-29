@@ -5,7 +5,7 @@
 set -e
 
 DESIGN_OS_VERSION="${DESIGN_OS_VERSION:-main}"
-REPO_URL="${DESIGN_OS_REPO:-https://github.com/evansparkman/design-os}"
+REPO_URL="${DESIGN_OS_REPO:-https://github.com/esparkman/design-os}"
 
 echo "========================================"
 echo "  Design OS Installer"
