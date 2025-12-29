@@ -75,25 +75,34 @@ Before ending a session:
 
 ### Design OS (The Tool)
 
+**Slash Commands** (user-invoked with `/command`):
+```
+.claude/commands/
+├── analyze-app.md        # /analyze-app - Scan Rails codebase
+├── design-screen.md      # /design-screen - Create ViewComponent screens
+├── design-shell.md       # /design-shell - Design application shell
+├── design-tokens.md      # /design-tokens - Define/extract tokens
+├── document-component.md # /document-component - Document existing components
+├── export-product.md     # /export-product - Generate handoff package
+├── extract-patterns.md   # /extract-patterns - Identify reusable patterns
+├── product-roadmap.md    # /product-roadmap - Plan sections
+├── product-vision.md     # /product-vision - Define product overview
+├── recall.md             # /recall - Query knowledge base
+├── reimagine-component.md # /reimagine-component - Propose improvements
+├── remember.md           # /remember - Save to memory
+├── sample-data.md        # /sample-data - Create test data
+├── screenshot-design.md  # /screenshot-design - Capture screenshots
+├── session-end.md        # /session-end - End session with summary
+├── session-start.md      # /session-start - Start session, load context
+└── shape-section.md      # /shape-section - Define section spec
+```
+
+**Skills** (Claude-invoked automatically based on context):
 ```
 .claude/skills/
-├── analyze-app/SKILL.md        # Scan Rails codebase
-├── design-screen/SKILL.md      # Create ViewComponent screens
-├── design-shell/SKILL.md       # Design application shell
-├── design-tokens/SKILL.md      # Define/extract tokens
-├── document-component/SKILL.md # Document existing components
-├── export-product/SKILL.md     # Generate handoff package
-├── extract-patterns/SKILL.md   # Identify reusable patterns
-├── product-roadmap/SKILL.md    # Plan sections
-├── product-vision/SKILL.md     # Define product overview
-├── recall/SKILL.md             # Query knowledge base
-├── reimagine-component/SKILL.md # Propose improvements
-├── remember/SKILL.md           # Save to memory
-├── sample-data/SKILL.md        # Create test data
-├── screenshot-design/SKILL.md  # Capture screenshots
-├── session-end/SKILL.md        # End session with summary
-├── session-start/SKILL.md      # Start session, load context
-└── shape-section/SKILL.md      # Define section spec
+├── analyze-app/SKILL.md
+├── design-screen/SKILL.md
+└── ... (mirrors commands)
 ```
 
 ### Project-Specific (Created Per Project)

@@ -26,22 +26,24 @@ fi
 echo "Installing Design OS..."
 echo ""
 
-# Create .claude/skills if it doesn't exist
-mkdir -p .claude/skills
+# Create .claude directories
+mkdir -p .claude/commands .claude/skills
 
-# Clone or download skills
+# Clone or download Design OS
 if command -v git &> /dev/null; then
   echo "-> Cloning Design OS..."
   git clone --depth 1 --branch "$DESIGN_OS_VERSION" "$REPO_URL" /tmp/design-os-install 2>/dev/null || {
     echo "  Falling back to default branch..."
     git clone --depth 1 "$REPO_URL" /tmp/design-os-install
   }
+  cp -r /tmp/design-os-install/.claude/commands/* .claude/commands/
   cp -r /tmp/design-os-install/.claude/skills/* .claude/skills/
   AGENTS_PATH="/tmp/design-os-install/agents.md"
 else
   echo "-> Downloading Design OS..."
   curl -sSL "$REPO_URL/archive/$DESIGN_OS_VERSION.zip" -o /tmp/design-os.zip
   unzip -q /tmp/design-os.zip -d /tmp/
+  cp -r /tmp/design-os-*/.claude/commands/* .claude/commands/
   cp -r /tmp/design-os-*/.claude/skills/* .claude/skills/
   AGENTS_PATH="/tmp/design-os-*/agents.md"
 fi
@@ -111,7 +113,8 @@ echo "  Design OS installed successfully!"
 echo "========================================"
 echo ""
 echo "Files created:"
-echo "  .claude/skills/*/SKILL.md  - 17 skills (analyze-app, design-screen, etc.)"
+echo "  .claude/commands/*.md      - 17 slash commands (/analyze-app, /design-screen, etc.)"
+echo "  .claude/skills/*/SKILL.md  - 17 skills (Claude-invoked)"
 echo "  design-context/            - Project knowledge base"
 echo "  product/                   - Design intent"
 echo ""
